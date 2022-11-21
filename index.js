@@ -1,7 +1,9 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
+const { token, mongodb_connection } = require('./config.json');
+const mongoose = require('mongoose');
+
 
 const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
@@ -31,3 +33,6 @@ for (const file of eventFiles) {
 }
 
 client.login(token);
+mongoose.connect(mongodb_connection, { useNewUrlParser: true, useUnifiedTopology: true }).then(console.log('Connected to Mongodb.'));
+
+
