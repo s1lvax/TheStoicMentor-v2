@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
-const Schema = require('../models/allJournalEntries');
+const Schema = require('../models/journalEntries');
 const request = require('request');
 
 module.exports = {
@@ -33,7 +33,6 @@ module.exports = {
                 .setAuthor({ name: author, iconURL: authorImage, url: 'https://en.wikipedia.org/wiki/Stoicism' })
                 .setDescription(quote)
                 .addFields(
-                    { name: '\u200B', value: '\u200B' },
                     { name: 'Source', value: quoteSource },
                 )
                 .setTimestamp()

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
-const Schema = require('../models/allJournalEntries');
+const { EmbedBuilder } = require('discord.js');
+const Schema = require('../models/journalEntries');
 
 module.exports = {
    data: new SlashCommandBuilder()
@@ -8,7 +9,7 @@ module.exports = {
    async execute(interaction) {
       //const userID = Number(interaction.user.id);
 
-      Schema.find({ author: 225633052645261313 }, function (err, docs) {
+      Schema.find({}, function (err, docs) {
          const messages = [];
          docs.forEach(element => messages.push(element['message']));
 
@@ -18,7 +19,13 @@ module.exports = {
             interaction.reply({ content: "You have 0 journal entries.", ephemeral: true });
          }
          if (messages) {
-            interaction.reply({ content: messagesString, ephemeral: true });
+            const quoteEmbed = new EmbedBuilder()
+               .setColor(0xffd700)
+               .setTitle("Your Journal Entries")
+               .setDescription(messagesString)
+               .setTimestamp()
+               .setFooter({ text: 'The Stoic Mentor', iconURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG/240px-0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG' })
+            interaction.reply({ embeds: [quoteEmbed], ephemeral: true });
          }
       });
    },
