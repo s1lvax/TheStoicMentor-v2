@@ -1,7 +1,12 @@
-const mongo = require('mongoose');
+const mongoose = require('mongoose');
+const { Schema, model } = require('mongoose');
 
-const allJournalEntriesSchema = new mongo.Schema({
+const allJournalEntriesSchema = new mongoose.Schema({
+  message: String,
   author: Number,
-});
+  date: String,
+}, { collection: 'journalMessages' });
 
-module.exports = mongo.model('journalMessages', allJournalEntriesSchema);
+const Journal = mongoose.model('journalmessage', allJournalEntriesSchema);
+
+module.exports = Journal;

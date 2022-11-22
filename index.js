@@ -33,6 +33,6 @@ for (const file of eventFiles) {
 }
 
 client.login(token);
-mongoose.connect(mongodb_connection, { useNewUrlParser: true, useUnifiedTopology: true }).then(console.log('Connected to Mongodb.'));
+mongoose.connect(mongodb_connection).then(console.log('Connected to Mongodb.'));
 
 

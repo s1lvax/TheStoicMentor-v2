@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
+const { Client, Events, GatewayIntentBits } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const Schema = require('../models/allJournalEntries');
 const request = require('request');
@@ -16,7 +17,7 @@ module.exports = {
             const quoteSource = body[0]['quotesource'];
             let authorImage = "";
 
-            //author imagine
+            //author image
             if (author == "Marcus Aurelius") {
                 authorImage = "http://thereformedbroker.com/wp-content/uploads/2013/05/Marcus-Aurelius.jpg"
             }
@@ -31,11 +32,9 @@ module.exports = {
                 .setColor(0xffd700)
                 .setAuthor({ name: author, iconURL: authorImage, url: 'https://en.wikipedia.org/wiki/Stoicism' })
                 .setDescription(quote)
-                //.setTitle('once wrote:')
                 .addFields(
                     { name: '\u200B', value: '\u200B' },
                     { name: 'Source', value: quoteSource },
-                    //   { name: 'Author', value: author },
                 )
                 .setTimestamp()
                 .setFooter({ text: 'The Stoic Mentor', iconURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG/240px-0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG' })
