@@ -19,11 +19,12 @@ module.exports = {
         var yyyy = today.getFullYear();
 
         today = dd + '-' + mm + '-' + yyyy;
+        todayString = String(today);
 
         Schema.create({
             message: journalEntry,
             author: userID,
-            date: today
+            date: todayString
         });
 
         const quoteEmbed = new EmbedBuilder()
