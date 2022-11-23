@@ -5,7 +5,17 @@ const { token, mongodb_connection } = require('./config.json');
 const mongoose = require('mongoose');
 
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds], });
+const client = new Client({
+	intents: [GatewayIntentBits.Guilds],
+	presence: {
+		status: 'online',
+		afk: false,
+		activities: [{
+			name: 'the universe unfold',
+			type: 3,
+		}],
+	}
+});
 
 //commands
 client.commands = new Collection();
