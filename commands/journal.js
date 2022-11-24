@@ -21,12 +21,14 @@ module.exports = {
         today = dd + '-' + mm + '-' + yyyy;
         todayString = String(today);
 
+        //insert into db
         Schema.create({
             message: journalEntry,
             author: userID,
             date: todayString
         });
 
+        //respond with an embed to the user
         const quoteEmbed = new EmbedBuilder()
             .setColor(0xffd700)
             .setTitle("Journal")
