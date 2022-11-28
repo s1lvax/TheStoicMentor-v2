@@ -1,20 +1,23 @@
 const { SlashCommandBuilder } = require('discord.js');
 const { Client, Events, GatewayIntentBits } = require('discord.js');
+const { ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
-const Schema = require('../models/journalEntries');
+const { ComponentType } = require('discord.js');
 const request = require('request');
+const Schema = require('../models/favoriteQuotes');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('quote')
         .setDescription('Get a random Stoic quote!'),
     async execute(interaction) {
-        const apiURL = 'https://stoic-server.herokuapp.com/random';
+
+        const apiURL = 'https://stoicquotesapi.com/v1/api/quotes/random';
 
         request({ 'url': apiURL, 'json': true }, function (error, response, body) {
-            const quote = body[0]['body'];
-            const author = body[0]['author'];
-            const quoteSource = body[0]['quotesource'];
+
+            const quote = body['body'];
+            const author = body['author'];
             let authorImage = "";
 
             //author image
@@ -27,17 +30,49 @@ module.exports = {
             else if (author == "Epictetus") {
                 authorImage = "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1507496989i/24121395._SY540_.jpg"
             }
+            else if (author == "Cato") {
+                authorImage = "https://www.frag-machiavelli.de/wp-content/uploads/2020/05/cato-der-%C3%A4ltere.jpg"
+            }
+            else if (author == "Zeno") {
+                authorImage = "https://cdn.shortpixel.ai/spai/w_867+q_lossy+ret_img+to_webp/https://i0.wp.com/platosacademy.org/wp-content/uploads/2022/01/PhotoFunia-1642603639.jpg?resize=867%2C1200&ssl=1"
+            }
 
+
+            //embed builder (response)
             const quoteEmbed = new EmbedBuilder()
                 .setColor(0xffd700)
                 .setAuthor({ name: author, iconURL: authorImage, url: 'https://en.wikipedia.org/wiki/Stoicism' })
-                .setDescription(quote)
-                .addFields(
-                    { name: 'Source', value: quoteSource },
-                )
+                .setTitle(quote)
                 .setTimestamp()
-                .setFooter({ text: 'The Stoic Mentor', iconURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG/240px-0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG' })
-            interaction.reply({ embeds: [quoteEmbed] });
+                .setFooter({
+                    text: 'The Stoic Mentor', iconURL: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG/240px-0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG'
+                });
+
+            const row = new ActionRowBuilder()
+                .addComponents(
+                    new ButtonBuilder()
+                        .setCustomId('buttonFav')
+                        .setLabel('Add to favorites')
+                        .setStyle(ButtonStyle.Secondary),
+                );
+            interaction.reply({ embeds: [quoteEmbed], components: [row] });
+
+            //collect button clicks
+            const filter = i => i.customId === 'buttonFav';
+            const collector = interaction.channel.createMessageComponentCollector({ filter });
+
+            collector.on('collect', async i => {
+                let userTag = i.user.toString();
+                let userClickedID = i.user.id;
+
+                //insert in db
+                await Schema.create({
+                    quote: quote,
+                    user: userClickedID
+                });
+
+                i.reply(userTag + "The quote has been added to your favorites.");
+            });
         });
     },
 };

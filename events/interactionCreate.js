@@ -18,5 +18,8 @@ module.exports = {
 			console.error(`Error executing ${interaction.commandName}`);
 			console.error(error);
 		}
+
+		if (!interaction.isButton()) return;
+		console.log(interaction);
 	},
 };

@@ -48,8 +48,7 @@ module.exports = {
          });
       }
       else {
-         //search in the db for entries
-
+         //validation of date entry
          const userKeyRegExp = /\d\d-\d\d-\d\d\d\d/;
 
          const valid = userKeyRegExp.test(dateOption);
