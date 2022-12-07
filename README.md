@@ -37,10 +37,3 @@ The /myjournaldate command :
 
 ![image](https://user-images.githubusercontent.com/113994636/196951758-b028f7d7-7560-4c34-ac6d-857d1ad2a4f7.png)
 
-
-
-# Setup
-
-If you want to use The Stoic Mentor bot in your own Discord server, feel free to do so by using this URL :
-
-https://discord.com/oauth2/authorize?client_id=1023134462055301161&permissions=8&scope=bot%20applications.commands
