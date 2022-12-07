@@ -1,6 +1,4 @@
 ﻿# TheStoicMentor-v2
-# TheStoicMentor Discord Bot
-
 Welcome to The Stoic Mentor Bot. 
 
 If you love Stoicism, this bot is for you!
