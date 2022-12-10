@@ -64,14 +64,27 @@ module.exports = {
             collector.on('collect', async i => {
                 let userTag = i.user.toString();
                 let userClickedID = i.user.id;
+                let messageClickedID = i.message.id;
+
+                // Fetch the message containing the embeds
+                let messageWithEmbed = await i.channel.messages.fetch(messageClickedID);
+
+                // Get the array of embeds from the message
+                let embeds = messageWithEmbed.embeds;
+
+                // Get the first embed in the array
+                let firstEmbed = embeds[0];
+
+                // Get the title of the first embed
+                let embedTitle = firstEmbed.title;
 
                 //insert in db
                 await Schema.create({
-                    quote: quote,
+                    quote: embedTitle,
                     user: userClickedID
                 });
 
-                i.reply(userTag + "The quote has been added to your favorites.");
+                i.reply(userTag + " The quote has been added to your favorites.");
             });
         });
     },
