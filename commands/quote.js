@@ -19,29 +19,35 @@ module.exports = {
             const quote = body['body'];
             const author = body['author'];
             let authorImage = "";
+            let authorUrl = "";
 
             //author image
             if (author == "Marcus Aurelius") {
                 authorImage = "http://thereformedbroker.com/wp-content/uploads/2013/05/Marcus-Aurelius.jpg"
+                authorUrl = "https://plato.stanford.edu/entries/marcus-aurelius/"
             }
             else if (author == "Seneca") {
                 authorImage = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG/240px-0_S%C3%A9n%C3%A8que_-_Mus%C3%A9e_du_Prado_-_Cat._144_-_%282%29.JPG"
+                authorUrl = "https://plato.stanford.edu/entries/seneca/"
             }
             else if (author == "Epictetus") {
                 authorImage = "https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/hostedimages/1507496989i/24121395._SY540_.jpg"
+                authorUrl = "https://plato.stanford.edu/entries/epictetus/"
             }
             else if (author == "Cato") {
                 authorImage = "https://www.frag-machiavelli.de/wp-content/uploads/2020/05/cato-der-%C3%A4ltere.jpg"
+                authorUrl = "https://www.thelivingphilosophy.com/cato-the-younger/"
             }
             else if (author == "Zeno") {
                 authorImage = "https://cdn.shortpixel.ai/spai/w_867+q_lossy+ret_img+to_webp/https://i0.wp.com/platosacademy.org/wp-content/uploads/2022/01/PhotoFunia-1642603639.jpg?resize=867%2C1200&ssl=1"
+                authorUrl = "https://plato.stanford.edu/entries/zeno-elea/"
             }
 
 
             //embed builder (response)
             const quoteEmbed = new EmbedBuilder()
                 .setColor(0xffd700)
-                .setAuthor({ name: author, iconURL: authorImage, url: 'https://en.wikipedia.org/wiki/Stoicism' })
+                .setAuthor({ name: author, iconURL: authorImage, url: authorUrl })
                 .setTitle(quote)
                 .setTimestamp()
                 .setFooter({
