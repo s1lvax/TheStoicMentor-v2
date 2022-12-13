@@ -65,7 +65,8 @@ module.exports = {
 
             //collect button clicks
             const filter = i => i.customId === 'buttonFav';
-            const collector = interaction.channel.createMessageComponentCollector({ filter });
+            const filter2 = i => i.user.id;
+            const collector = interaction.channel.createMessageComponentCollector(filter, { max: 1 });
 
             collector.on('collect', async i => {
                 let userTag = i.user.toString();
@@ -84,13 +85,22 @@ module.exports = {
                 // Get the title of the first embed
                 let embedTitle = firstEmbed.title;
 
-                //insert in db
-                await Schema.create({
-                    quote: embedTitle,
-                    user: userClickedID
-                });
+                let existingQuote = await Schema.findOne({ quote: embedTitle, user: userClickedID });
 
-                i.reply(userTag + " The quote has been added to your favorites.");
+                if (existingQuote) {
+                    // Quote already exists, return a message to the user
+                    return i.reply(i.user.toString() + " This quote is already in your favorites.");
+                }
+                else {
+                    // Quote does not exist, insert it into the database
+                    await Schema.create({
+                        quote: embedTitle,
+                        user: userClickedID
+                    });
+                    console.log("Uploaded");
+                }
+
+                await i.reply(i.user.toString() + " The quote has been added to your favorites.");
             });
         });
     },
