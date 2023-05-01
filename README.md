@@ -1,4 +1,4 @@
-﻿# TheStoicMentor-v2
+﻿# DEPRECATED | TheStoicMentor-v2
 Welcome to The Stoic Mentor Bot. 
 
 If you love Stoicism, this bot is for you!
